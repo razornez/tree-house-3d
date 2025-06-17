@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Razornez Room Folio</title>
+    <link rel="stylesheet" href="./src/style.scss" />
+    <link rel="icon" type="image/png" href="media/dark-favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/media/dark-faviconfavicon.svg" />
+    <link rel="shortcut icon" href="media/dark-favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="media/dark-favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="media/dark-favicon/site.webmanifest" />
+
+    <meta name="language" content="English" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/media/og-image.webp" />
+
+    <meta
+      property="og:description"
+      content="Hi, I'm Iwan Kurniawan — a passionate Front-End Developer with 7+ years of experience. I love crafting interactive and secure digital experiences through code and design."
+    />
+
+  </head>
+  <body class="light-theme">
+    <div class="loading-screen">
+      <div class="diorama-wrapper">
+        <img src="/media/gaming_room2.webp" alt="3D Diorama" class="diorama-image" />
+      </div>
+      <div class="loading-content">
+        <h1 class="welcome-title">Welcome to My Gaming Room</h1>
+        <p class="welcome-subtitle">An experimental 3D portfolio built with Blender & Three.js</p>
+    
+        <button class="loading-screen-button">Loading...</button>
+      </div>
+    
+      <div class="instructions">
+        <p class="desktop-instructions">🖱️ Use left/right click and scroll to navigate</p>
+        <p class="mobile-instructions">📱 Use one or two fingers to explore</p>
+      </div>
+    </div>
+    
+    <div class="overlay"></div>
+
+    <button class="mute-toggle-button toggle-buttons" style="display: none;">
+      <svg
+        width="800"
+        height="800"
+        viewBox="0 0 800 800"
+        fill="none"
+        class="sound-svg sound-off-svg"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M366.064 567.04C430.064 624 508.464 663.04 545.584 650.56C612.784 625.6 623.984 490.557 623.984 397.117C623.984 371.197 623.984 341.76 620.464 312.641"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M596.134 200.963C592.038 188.521 585.44 177.047 576.746 167.252C568.051 157.456 557.443 149.545 545.578 144.002C506.218 129.282 422.698 175.999 353.578 237.119H302.375C268.427 237.119 235.87 250.606 211.865 274.611C187.86 298.616 174.375 331.171 174.375 365.12V429.12C174.365 453.795 181.488 477.952 194.887 498.672C208.285 519.395 227.387 535.802 249.894 545.92"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M720 77.4414L80 717.44"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+
+      <svg
+        width="800"
+        height="800"
+        viewBox="0 0 800 800"
+        fill="none"
+        class="sound-svg sound-on-svg"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M417.578 144.002C378.218 129.282 294.696 175.999 225.576 237.119H174.375C140.427 237.119 107.87 250.606 83.8653 274.611C59.8605 298.616 46.375 331.171 46.375 365.12V429.12C46.375 463.066 59.8605 495.626 83.8653 519.632C107.87 543.635 140.427 557.12 174.375 557.12H225.576C293.096 619.2 376.618 664.96 417.578 650.56C484.778 625.6 495.974 490.56 495.974 397.12C495.974 303.679 484.778 168.962 417.578 144.002Z"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M677.127 215.039C725.098 263.044 752.049 328.134 752.049 396C752.049 463.866 725.098 528.957 677.127 576.96"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M609.252 510.4C639.246 480.394 656.097 439.703 656.097 397.277C656.097 354.851 639.246 314.165 609.252 284.16"
+          stroke-width="85"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+
+    <button class="theme-toggle-button toggle-buttons" style="display: none;">
+      <svg class="sun-svg" width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M733.333 550H66.666M666.666 666.667H133.333M399.999 100V166.667M133.333 433.333H66.666M210.47 243.804L163.329 196.663M589.516 243.804L636.659 196.663M733.333 433.333H666.666M233.333 433.333C233.333 341.287 307.952 266.667 399.999 266.667C492.046 266.667 566.666 341.287 566.666 433.333"  stroke-width="85" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <svg class="moon-svg" width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M446.619 254.869C449.832 245.908 462.666 245.908 465.879 254.869L474.669 279.371C475.699 282.239 477.983 284.495 480.886 285.511L505.696 294.193C514.766 297.368 514.766 310.04 505.696 313.215L480.886 321.897C477.983 322.913 475.699 325.169 474.669 328.038L465.879 352.54C462.666 361.5 449.832 361.5 446.619 352.54L437.829 328.038C436.799 325.169 434.516 322.913 431.612 321.897L406.803 313.215C397.733 310.04 397.733 297.368 406.803 294.193L431.612 285.511C434.516 284.495 436.799 282.239 437.829 279.371L446.619 254.869Z" fill="currentColor"/>
+        <path d="M543.581 363.74C545.724 357.766 554.278 357.766 556.421 363.74L562.281 380.073C562.968 381.986 564.491 383.49 566.427 384.166L582.964 389.956C589.014 392.073 589.014 400.52 582.964 402.636L566.427 408.423C564.491 409.103 562.968 410.606 562.281 412.52L556.421 428.853C554.278 434.826 545.724 434.826 543.581 428.853L537.721 412.52C537.034 410.606 535.511 409.103 533.574 408.423L517.037 402.636C510.987 400.52 510.987 392.073 517.037 389.956L533.574 384.166C535.511 383.49 537.034 381.986 537.721 380.073L543.581 363.74Z" fill="currentColor"/>
+        <path d="M592.31 109.728C596.963 96.7573 615.537 96.7573 620.19 109.728L636.14 154.184C637.627 158.335 640.937 161.602 645.14 163.073L690.15 178.825C703.283 183.421 703.283 201.764 690.15 206.36L645.14 222.112C640.937 223.583 637.627 226.85 636.14 231.002L620.19 275.457C615.537 288.428 596.963 288.428 592.31 275.457L576.36 231.002C574.873 226.85 571.563 223.583 567.36 222.112L522.35 206.36C509.217 201.764 509.217 183.421 522.35 178.825L567.36 163.073C571.563 161.602 574.873 158.335 576.36 154.184L592.31 109.728Z" fill="currentColor"/>
+        <path d="M100 448.657C100 587.47 215.807 700 358.66 700C468.637 700 562.58 633.31 600 539.277C570.363 552.803 537.27 560.363 502.363 560.363C375.38 560.363 272.441 460.337 272.441 336.947C272.441 285.342 290.446 237.824 320.685 200C195.834 217.85 100 322.377 100 448.657Z"  stroke-width="85" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="work modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">~ My Work ~</h1>
+
+        <div class="modal-content">
+          <div class="modal-content-wrapper">
+            <div class="work-project">
+              <div class="work-project-wrapper">
+                <div class="work-image-wrapper">
+                  <img
+                    class="work-base-image"
+                    src="/images/community.webp"
+                    alt=""
+                    srcset=""
+                  />
+                </div>
+                <div class="paragraph-section">
+                  <h2 class="modal-paragraph-header">Tech Community Contributor</h2>
+                  <p class="modal-paragraph-text">
+                    Actively contributed to developer communities and tech forums by sharing knowledge in frontend development, cloud infrastructure, and AI. Frequently collaborate in meetups, mentoring sessions, and online discussions to support fellow developers.
+                  </p>
+                  <p class="modal-paragraph-text sm-margin-top sm-font">
+                    Skills: Leadership, Communication, Mentoring, Developer Relations
+                  </div>
+                  </p>
+                </div>
+            </div>
+            <div class="work-project">
+              <div class="work-project-wrapper">
+                <div class="work-image-wrapper">
+                  <img
+                    class="work-base-image"
+                    src="/images/computer.webp"
+                    alt=""
+                    srcset=""
+                  />
+                </div>
+                <div class="paragraph-section">
+                  <h2 class="modal-paragraph-header">Web Playground Projects</h2>
+                  <p class="modal-paragraph-text">
+                    As someone who truly enjoys building for the web, I've worked on several side projects exploring how interactive design and technology can come together. One of them is a personal playground where I experiment with frontend frameworks, responsive UI, and even 3D elements using WebGL and Blender. It's a space for continuous learning — whether it's trying out a new animation technique, integrating APIs, or just making something fun and meaningful to share with others.
+                  </p>
+                  <p class="modal-paragraph-text sm-margin-top sm-font">
+                    Skills: React, Next.js, JavaScript, 3D Web (Three.js, Blender), UX Design, Responsive UI, API Integration
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="work-project">
+              <div class="work-project-wrapper">
+                <div class="work-image-wrapper">
+                  <img
+                    class="work-base-image"
+                    src="/images/football.webp"
+                    alt=""
+                    srcset=""
+                  />
+                </div>
+                <div class="paragraph-section">
+                  <h2 class="modal-paragraph-header">Crafting Reliable Web Applications</h2>
+                  <p class="modal-paragraph-text">
+                    One of the projects I'm most proud of involved building a scalable web application designed to perform reliably under real-world conditions. From planning to deployment, I followed a structured SDLC process — starting from clear requirement gathering, thoughtful UI/UX design, modular architecture, and rigorous testing. The result was a lightweight, responsive, and low-error-rate app that continues to run smoothly in production. I see every project as an opportunity to improve not only the product, but also the way I build.
+                  </p>
+                  <p class="modal-paragraph-text sm-margin-top sm-font">
+                    Skills: Software Architecture, SDLC, Frontend Engineering, Next.js, Performance Optimization, Testing & Debugging, Clean Code, Continuous Delivery
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-exit-button">
+        <svg
+          width="98"
+          height="96"
+          viewBox="0 0 98 96"
+          class="exit-button-svg"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)"
+            fill="currentColor"
+          />
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="about modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">~ About Me ~</h1>
+
+        <div class="modal-content">
+          <div class="modal-content-wrapper">
+            <div class="paragraph-section">
+              <div class="image-wrapper">
+                <img
+                  class="base-image"
+                  src="/images/profile_pic.webp"
+                  alt="Profile Picture"
+                />
+              </div>
+              <h2 class="modal-paragraph-header">
+                Curious developer, tech enthusiast, and creative explorer ⚡
+              </h2>
+              <p class="modal-paragraph-text">
+                Hi, I'm Iwan Kurniawan — a passionate frontend engineer and lifelong learner with a deep interest in building interactive and meaningful digital experiences. With over Seven years of experience in software development, I enjoy crafting reliable, user-focused applications using technologies like React, Next.js, PHP, and beyond.
+              </p>
+              <p class="modal-paragraph-text sm-margin-top">
+                Outside of tech, I love spending time with family and friends, watching football, and exploring new places for inspiration.
+              </p>
+            
+              <h2 class="modal-paragraph-header">What I'm Currently Working On:</h2>
+              <ul>
+                <li class="list-text">
+                  Developing web-based tools that are fast, secure, and user-friendly — with extra care on performance and scalability.
+                </li>
+                <li class="list-text">
+                  Continuously learning and experimenting with 3D design using Blender, combining visual storytelling with interactive UI/UX.
+                </li>
+                <li class="list-text">
+                  Actively collaborating with communities and sharing knowledge through open source contributions and tech discussions.
+                </li>
+              </ul>
+            
+              <h2 class="modal-paragraph-header-2">Let's Connect:</h2>
+              <ul>
+                <li class="list-text-2">Instagram: <a href="https://instagram.com/razornez" target="_blank">@razornez</a></li>
+                <li class="list-text-2">GitHub: <a href="https://github.com/#" target="_blank">github.com</a></li>
+                <li class="list-text-2">LinkedIn: <a href="https://www.linkedin.com/in/razornez" target="_blank">linkedin.com/in/razornez</a></li>
+                <li class="list-text-2">WhatsApp: <a href="https://wa.me/6285889963822" target="_blank">6285889963822</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-exit-button">
+        <svg
+          width="98"
+          height="96"
+          viewBox="0 0 98 96"
+          class="exit-button-svg"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)"
+            fill="currentColor"
+          />
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+    <div class="contact modal">
+      <div class="modal-wrapper">
+        <h1 class="modal-title">~ Say hello! ~</h1>
+
+        <div class="modal-content">
+          <div class="modal-content-wrapper">
+            <div class="paragraph-section">
+              <h2 class="modal-paragraph-header xsm-margin-top">
+                Interested in tech, design, or just want to talk ideas? Let's connect!
+              </h2>
+              <div class="contact-button-wrapper">
+                <a
+                  class="contact-link"
+                  href="mailto:razornez@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                <svg class="contact-svg mail" width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M656.85 209.817C608.726 166.348 527.66 150 400 150C272.34 150 191.272 166.348 143.15 209.817M656.85 209.817C700.01 248.804 716.666 309.608 716.666 400C716.666 591.177 642.156 650 400 650C157.843 650 83.333 591.177 83.333 400C83.333 309.608 99.9903 248.804 143.15 209.817M656.85 209.817L447.14 419.527C421.103 445.56 378.893 445.56 352.86 419.527L143.15 209.817" stroke="currentColor" stroke-width="66.7" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </a>
+                <a
+                  class="contact-link"
+                  href="https://github.com/#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    width="800"
+                    height="800"
+                    viewBox="0 0 800 800"
+                    fill="none"
+                    class="contact-svg github"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M700 400C700 565.687 565.687 700 400 700C234.315 700 100 565.687 100 400C100 234.315 234.315 100 400 100C565.687 100 700 234.315 700 400Z"
+                      stroke="currentColor"
+                      stroke-width="66.6667"
+                    />
+                    <path
+                      d="M457.234 296.059C419.604 285.652 380.397 285.652 342.767 296.059C342.124 296.237 341.481 296.418 340.841 296.603C336.891 297.74 332.642 296.967 329.357 294.497C289.771 264.731 269.093 266.061 263.976 267.054C263.154 267.214 262.529 267.827 262.245 268.615C262.173 268.814 262.102 269.013 262.031 269.212C253.88 292.169 252.635 317.605 258.426 341.417C258.764 342.804 259.124 344.184 259.509 345.557C259.534 345.647 259.56 345.737 259.585 345.827C259.919 347.007 259.674 348.277 258.927 349.254C258.359 349.994 257.799 350.744 257.248 351.5C241.494 373.13 232.97 400.71 233.346 429.157C233.346 544.664 293.466 571.194 351.167 579.037L352.361 579.194C384.491 583.997 415.291 583.7 447.317 578.264L448.127 578.167C506.107 571.13 566.654 545.29 566.654 429.157C567.031 400.71 558.507 373.13 542.754 351.5C542.247 350.807 541.734 350.117 541.214 349.434L541.174 349.384C540.367 348.327 540.101 346.95 540.461 345.67C540.857 344.257 541.227 342.84 541.571 341.417C547.367 317.537 546.051 292.026 537.764 269.059C537.711 268.918 537.661 268.777 537.611 268.637C537.317 267.835 536.681 267.21 535.841 267.048C530.701 266.055 510.137 264.794 470.644 294.497C467.361 296.966 463.111 297.733 459.161 296.602C458.521 296.418 457.877 296.237 457.234 296.059Z"
+                      stroke="currentColor"
+                      stroke-width="66.6667"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </a>
+                <a
+                  class="contact-link"
+                  href="https://www.linkedin.com/in/razornez"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg
+                    width="800"
+                    height="800"
+                    viewBox="0 0 800 800"
+                    class="contact-svg linkedin"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g clip-path="url(#clip0_371_15)">
+                      <path
+                        d="M600 100C655.23 100 700 144.772 700 200V600C700 655.23 655.23 700 600 700H200C144.772 700 100 655.23 100 600V200C100 144.772 144.772 100 200 100H600ZM600 166.667H200C181.591 166.667 166.667 181.591 166.667 200V600C166.667 618.41 181.591 633.333 200 633.333H600C618.41 633.333 633.333 618.41 633.333 600V200C633.333 181.591 618.41 166.667 600 166.667ZM266.667 333.333C283.761 333.333 297.85 346.201 299.776 362.779L300 366.667V533.333C300 551.743 285.076 566.667 266.667 566.667C249.572 566.667 235.483 553.799 233.558 537.221L233.333 533.333V366.667C233.333 348.257 248.257 333.333 266.667 333.333ZM366.667 300C383.043 300 396.66 311.809 399.47 327.376C406.21 323.478 413.167 319.964 420.223 316.946C442.463 307.432 475.773 302.198 505.83 311.65C521.587 316.603 537.44 325.969 549.193 341.853C559.682 356.034 565.33 373.28 566.456 392.642L566.667 400V533.333C566.667 551.74 551.743 566.667 533.333 566.667C516.238 566.667 502.15 553.796 500.224 537.22L500 533.333V400C500 389.023 497.337 383.857 495.6 381.503C493.81 379.087 490.913 376.843 485.837 375.247C474.227 371.597 457.537 373.493 446.443 378.24C429.742 385.383 414.491 396.571 404.131 406.945L400 411.327V533.333C400 551.743 385.077 566.667 366.667 566.667C349.572 566.667 335.483 553.799 333.558 537.221L333.333 533.333V333.333C333.333 314.924 348.257 300 366.667 300ZM266.667 233.333C285.076 233.333 300 248.257 300 266.667C300 285.076 285.076 300 266.667 300C248.257 300 233.333 285.076 233.333 266.667C233.333 248.257 248.257 233.333 266.667 233.333Z"
+                        fill="currentColor"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_371_15">
+                        <rect width="800" height="800" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </a>
+                <a
+                  class="contact-link"
+                  href="https://instagram.com/razornez"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                <svg class="contact-svg instagram" width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M400 675C341.033 675 298.6 674.971 265.517 671.763C232.812 668.592 211.892 662.5 195.196 652.008C176.114 640.02 159.978 623.885 147.987 604.804C137.5 588.108 131.404 567.187 128.238 534.483C125.029 501.4 125 458.967 125 400C125 341.033 125.029 298.6 128.238 265.517C131.404 232.812 137.5 211.892 147.987 195.196C159.977 176.113 176.113 159.977 195.196 147.987C211.892 137.5 232.812 131.404 265.517 128.238C298.596 125.029 341.029 125 400 125C458.967 125 501.4 125.029 534.483 128.238C567.187 131.404 588.108 137.5 604.804 147.987C623.885 159.978 640.02 176.114 652.008 195.196C662.5 211.892 668.592 232.812 671.763 265.517C674.971 298.6 675 341.033 675 400C675 458.967 674.971 501.4 671.763 534.483C668.592 567.187 662.5 588.108 652.008 604.804C640.019 623.885 623.885 640.019 604.804 652.008C588.108 662.5 567.187 668.592 534.483 671.763C501.4 674.971 458.967 675 400 675Z" stroke="currentColor" stroke-width="66.7"/>
+                  <path d="M400 525C469.036 525 525 469.036 525 400C525 330.964 469.036 275 400 275C330.964 275 275 330.964 275 400C275 469.036 330.964 525 400 525Z" stroke="currentColor" stroke-width="66.7"/>
+                  <path d="M562.5 275C583.211 275 600 258.211 600 237.5C600 216.789 583.211 200 562.5 200C541.789 200 525 216.789 525 237.5C525 258.211 541.789 275 562.5 275Z" fill="currentColor"/>
+                </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="modal-exit-button">
+        <svg
+          width="98"
+          height="96"
+          viewBox="0 0 98 96"
+          class="exit-button-svg"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(-0.696845 0.717222 0.717222 0.696845 83.1709 0)"
+            fill="currentColor"
+          />
+          <rect
+            width="115.92"
+            height="17.889"
+            rx="8.94448"
+            transform="matrix(0.73406 0.679084 0.679084 -0.73406 0 13.1318)"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div id="experience">
+      <canvas id="experience-canvas" class="experience-canvas"></canvas>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

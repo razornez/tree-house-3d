@@ -1,0 +1,25 @@
+{
+  "name": "room-portfolio",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.0.5"
+  },
+  "dependencies": {
+    "glsl-blend": "^1.0.3",
+    "glslify-loader": "^2.0.0",
+    "gsap": "^3.12.7",
+    "howler": "^2.2.4",
+    "include-media": "^2.0.0",
+    "sass": "^1.83.4",
+    "three": "^0.172.0",
+    "three-nebula": "^10.0.3",
+    "vite-plugin-glsl": "^1.3.1"
+  }
+}

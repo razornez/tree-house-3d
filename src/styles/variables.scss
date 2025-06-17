@@ -1,0 +1,20 @@
+$base-dark-purple: #0d1b2a;        // Biru sangat gelap (dark navy)
+$base-purple: #1b263b;             // Biru gelap keabu-abuan
+$base-purple-200: #415a77;         // Biru medium ke soft slate
+$base-pink: #778da9;               // Biru terang pastel
+$base-light-purple: #e0e7ef;       // Biru sangat terang / putih kebiruan
+
+$base-dark-purple-2: #091421;      // Lebih gelap untuk dark mode
+$base-purple-2: #11293e;           // Deep blue
+$base-purple-200-2: #2d4a66;       // Slate blue medium
+$base-pink-2: #5c7598;             // Biru keabu-an yang lembut
+$base-light-purple-2: #d4e4f4;     // Biru pucat cerah untuk background terang
+
+$base-black: #090909;              // Tetap hitam
+$base-white: #fdfdfd;              // Tetap putih
+// Mixins
+@mixin centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

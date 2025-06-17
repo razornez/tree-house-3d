@@ -11,7 +11,6 @@ import smokeVertexShader from "./shaders/smoke/vertex.glsl";
 import smokeFragmentShader from "./shaders/smoke/fragment.glsl";
 import themeVertexShader from "./shaders/theme/vertex.glsl";
 import themeFragmentShader from "./shaders/theme/fragment.glsl";
-
 /**  -------------------------- Audio setup -------------------------- */
 
 // Background Music
@@ -75,8 +74,8 @@ scene.background = new THREE.Color("#D9CAD1");
 const camera = new THREE.PerspectiveCamera(
   35,
   sizes.width / sizes.height,
-  5.1,
-  100000
+  0.1,
+  200
 );
 
 const renderer = new THREE.WebGLRenderer({
@@ -89,8 +88,8 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.minDistance = 5;
-controls.maxDistance = 85;
-controls.minPolarAngle = Math.PI / 4;
+controls.maxDistance = 45;
+controls.minPolarAngle = 0;
 controls.maxPolarAngle = Math.PI / 2;
 controls.minAzimuthAngle = 0;
 controls.maxAzimuthAngle = Math.PI / 2;
@@ -102,18 +101,26 @@ controls.update();
 
 //Set starting camera position
 if (window.innerWidth < 768) {
-  camera.position.set(72.49173098423395, 41.108969527553887, 72.850992894238058);
+  camera.position.set(
+    35.5, // x: sedikit lebih jauh ke kanan dari 17.49 -> 20.5
+    13.0, // y: tetap
+    45.5  // z: lebih jauh dari 21 -> 24.5
+  );
   controls.target.set(
-    30.4624746759408973,
-    13.5719940043010387,
-    5.3300979125494505
+    5.4624746759408973,
+    7.7,               // target y sedikit turun
+    1.3300979125494505
   );
 } else {
-  camera.position.set(32.49173098423395, 11.108969527553887, 22.850992894238058);
+  camera.position.set(
+    21.5, // x: sedikit lebih jauh ke kanan dari 17.49 -> 20.5
+    13.0, // y: tetap
+    25.5  // z: lebih jauh dari 21 -> 24.5
+  );
   controls.target.set(
-    20.4624746759408973,
-    13.5719940043010387,
-    5.3300979125494505
+    5.4624746759408973,
+    7.7,               // target y sedikit turun
+    1.3300979125494505
   );
 }
 
@@ -359,6 +366,37 @@ function playReveal() {
 }
 
 function playIntroAnimation() {
+  const tCactus = gsap.timeline({
+    defaults: {
+      duration: 0.8,
+      ease: "back.out(1.8)",
+    },
+  });
+  tCactus.timeScale(0.8);
+
+  tCactus
+    .to(cactus.scale, {
+      x: 1,
+      y: 1,
+      z: 1,
+    })
+
+  const tBooks = gsap.timeline({
+    defaults: {
+      duration: 0.8,
+      ease: "back.out(1.8)",
+    },
+  });
+  tBooks.timeScale(0.8);
+
+  books.forEach((book, index) => {
+    tBooks.to(book.scale, {
+      x: 1,
+      y: 1,
+      z: 1,
+    }, index === 0 ? 0 : `-=${0.5}`);
+  });
+
   const tEggs = gsap.timeline({
     defaults: {
       duration: 0.8,
@@ -367,30 +405,13 @@ function playIntroAnimation() {
   });
   tEggs.timeScale(0.8);
 
-  tEggs
-    .to(egg1.scale, {
+  eggs.forEach((eggs, index) => {
+    tEggs.to(eggs.scale, {
       x: 1,
       y: 1,
       z: 1,
-    })
-    .to(
-      egg2.scale,
-      {
-        x: 1,
-        y: 1,
-        z: 1,
-      },
-      "-=0.5"
-    )
-    .to(
-      egg3.scale,
-      {
-        x: 1,
-        y: 1,
-        z: 1,
-      },
-      "-=0.5"
-    );
+    }, index === 0 ? 0 : `-=${0.5}`);
+  });
 }
 
 /**  -------------------------- Loaders & Texture Preparations -------------------------- */
@@ -426,10 +447,6 @@ const textureMap = {
   Fifth: {
     day: "/textures/room/day/fifth_texture_set_day.webp",
     night: "/textures/room/night/fifth_texture_set_night.webp",
-  },
-  Sixth: {
-    day: "/textures/room/day/sixth_texture_set_day.webp",
-    night: "/textures/room/night/sixth_texture_set_night.webp",
   },
 };
 
@@ -489,8 +506,6 @@ const createMaterialForTextureSet = (textureSet) => {
       uNightTexture4: { value: loadedTextures.night.Fourth },
       uDayTexture5: { value: loadedTextures.day.Fifth },
       uNightTexture5: { value: loadedTextures.night.Fifth },
-      uDayTexture6: { value: loadedTextures.day.Sixth },
-      uNightTexture6: { value: loadedTextures.night.Sixth },
       uMixRatio: { value: 0 },
       uTextureSet: { value: textureSet },
     },
@@ -514,7 +529,6 @@ const roomMaterials = {
   Third: createMaterialForTextureSet(3),
   Fourth: createMaterialForTextureSet(4),
   Fifth: createMaterialForTextureSet(5),
-  Sixth: createMaterialForTextureSet(6),
 };
 
 // Smoke Shader setup
@@ -554,68 +568,101 @@ function createVideoTexture(src, rotation) {
 
   const texture = new THREE.VideoTexture(videoElement);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.flipY = false;
+  texture.flipY = true;
   texture.center.set(0.5, 0.5);
   texture.rotation = rotation;
+
 
   return texture;
 }
 
 // Buat video texture
-const videoTexture = createVideoTexture("/textures/video/Screen.mp4", Math.PI / 2);
+const videoTexture = createVideoTexture("/textures/video/Screen2.mp4", Math.PI / 2);
 /**  -------------------------- Model and Mesh Setup -------------------------- */
 
-// LOL DO NOT DO THIS USE A FUNCTION TO AUTOMATE THIS PROCESS HAHAHAAHAHAHAHAHAHA
 let coffeePosition;
 let chairTop;
+let leftBirdWing;
+let rightBirdWing;
+let AccFourth1;
+let AccFourth2;
 const xAxisFans = [];
 const yAxisFans = [];
-const zAxisFans = [];
-let egg1, egg2, egg3;
+let cactus;
+const books = [];
+const eggs = [];
 
 loader.load("/models/Room_Portfolio.glb", (glb) => {
   glb.scene.traverse((child) => {
-    if (child.isMesh) {
-      if (child.name.includes("Chair_Top")) {
-        chairTop = child;
-        child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
-      }
+    if (!child.isMesh) return;
 
-      if (child.name.includes("Coffee")) {
-        coffeePosition = child.position.clone();
-      }
-
-      if (child.name.includes("Raycaster")) {
-        raycasterObjects.push(child);
-      }
-
-      if (child.name.includes("Hover") || child.name.includes("Key")) {
-        child.userData.initialScale = new THREE.Vector3().copy(child.scale);
-        child.userData.initialPosition = new THREE.Vector3().copy(
-          child.position
-        );
-        child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
-      }
-
-      if (child.name === 'Screen') {
-        child.material = new THREE.MeshBasicMaterial({
-          map: videoTexture,
-          transparent: true,
-          opacity: 0.9,
-        });
-      } else if (child.name.includes("Egg_1")) {
-        egg1 = child;
-        child.scale.set(0, 0, 0);
-      } else if (child.name.includes("Egg_2")) {
-        egg2 = child;
-        child.scale.set(0, 0, 0);
-      } else if (child.name.includes("Egg_3")) {
-        egg3 = child;
-        child.scale.set(0, 0, 0);
-      } 
+    // Simpan rotasi awal
+    if (["Chair_Top", "Birdwing_1", "Birdwing_2", "Acc_Fourth_1", "Acc_Fourth_2"].some(name => child.name.includes(name))) {
+      child.userData.initialRotation = new THREE.Euler().copy(child.rotation);
     }
+
+    // Simpan objek khusus
+    if (child.name.includes("Chair_Top")) chairTop = child;
+    if (child.name.includes("Birdwing_1")) leftBirdWing = child;
+    if (child.name.includes("Birdwing_2")) rightBirdWing = child;
+    if (child.name === "Acc_Fourth_1") AccFourth1 = child;
+    if (child.name === "Acc_Fourth_2") AccFourth2 = child;
+
+    if (child.name.includes("Coffee")) {
+      coffeePosition = child.position.clone();
+    }
+
+    if (child.name.includes("Raycaster")) {
+      raycasterObjects.push(child);
+    }
+
+    if (child.name.includes("Hover")) {
+      child.userData.initialScale = child.scale.clone();
+      child.userData.initialPosition = child.position.clone();
+      child.userData.initialRotation = child.rotation.clone();
+    }
+
+    // Atur animasi intro dan sembunyikan
+    if (child.name.includes("Book_")) {
+      books.push(child);
+      child.scale.set(0, 0, 0);
+    }
+
+    if (child.name.includes("Egg_")) {
+      eggs.push(child);
+      child.scale.set(0, 0, 0);
+    }
+
+    if (child.name.includes("Cactus")) {
+      cactus = child;
+      child.scale.set(0, 0, 0);
+    }
+
+    if (child.name.includes("Screen")) {
+      child.material = new THREE.MeshBasicMaterial({
+        map: videoTexture,
+        transparent: false,
+        opacity: 1,
+      });
+    } 
+
+    // TERPISAH: Apply material jika ada
+    Object.keys(textureMap).forEach((key) => {
+      if (child.name.includes(key)) {
+        child.material = roomMaterials[key];
+
+        if (child.name.includes("Fan")) {
+          if (child.name.includes("Fan_2") || child.name.includes("Fan_4")) {
+            xAxisFans.push(child);
+          } else {
+            yAxisFans.push(child);
+          }
+        }
+      }
+    });
   });
 
+  // Tempatkan asap kopi
   if (coffeePosition) {
     smoke.position.set(
       coffeePosition.x,
@@ -625,14 +672,20 @@ loader.load("/models/Room_Portfolio.glb", (glb) => {
   }
 
   scene.add(glb.scene);
-
 });
+
 
 /**  -------------------------- Raycaster setup -------------------------- */
 
 const raycasterObjects = [];
 let currentIntersects = [];
 let currentHoveredObject = null;
+
+const socialLinks = {
+  GitHub: "https://github.com/#",
+  YouTube: "https://instagram.com/razornez",
+  Twitter: "https://wa.me/6285889963822",
+};
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -655,7 +708,6 @@ function handleRaycasterInteraction() {
       }
     });
 
-   
     if (object.name.includes("About_Button")) {
       showModal(modals.about);
     }
@@ -953,36 +1005,42 @@ themeToggleButton.addEventListener(
 );
 
 /**  -------------------------- Render and Animations Stuff -------------------------- */
+const clock = new THREE.Clock();
+
 const render = (timestamp) => {
+  const elapsedTime = clock.getElapsedTime();
+
+  // Update Shader Univform
+  smokeMaterial.uniforms.uTime.value = elapsedTime;
+
   //Update Orbit Controls
   controls.update();
 
-  // Fan rotate animation
-  xAxisFans.forEach((fan) => {
-    fan.rotation.x -= 0.03;
-  });
-
-  yAxisFans.forEach((fan) => {
-    fan.rotation.y -= 0.04;
-  });
-
-  zAxisFans.forEach((fan) => {
-    fan.rotation.y -= 0.03;
-  });
-
-  // Chair rotate animation
-  if (chairTop) {
-    const time = timestamp * 0.001;
-    const baseAmplitude = Math.PI / 8;
-
-    const rotationOffset =
-      baseAmplitude *
-      Math.sin(time * 0.5) *
-      (1 - Math.abs(Math.sin(time * 0.5)) * 0.3);
-
-    chairTop.rotation.y = chairTop.userData.initialRotation.y + rotationOffset;
+  const time = timestamp * 0.001;
+  // Reusable oscillation function
+  function applyOscillation(object, axis, amplitude, speedMultiplier = 1.0) {
+    if (!object) return;
+    const wave = Math.sin(time * speedMultiplier);
+    const offset = amplitude * wave * (1 - Math.abs(wave) * 0.3);
+    object.rotation[axis] = object.userData.initialRotation[axis] + offset;
   }
-
+  
+  // Reusable wing flapping function
+  function applyFlap(object, direction = 1) {
+    if (!object) return;
+    const flapAngle = THREE.MathUtils.degToRad(90);
+    const flapSpeed = 25.0;
+    const wingOffset = (flapAngle / 2) * (1 + Math.cos(time * flapSpeed));
+    object.rotation.x = object.userData.initialRotation.x + direction * wingOffset;
+  }
+  
+  // Apply animations
+  applyOscillation(chairTop, 'y', Math.PI / 8, 0.5);
+  applyFlap(leftBirdWing, -1);
+  applyFlap(rightBirdWing, 1);
+  applyOscillation(AccFourth1, 'x', Math.PI / 10, 1.0);
+  applyOscillation(AccFourth2, 'x', Math.PI / 8, 1.5);
+  
   // Raycaster
   if (!isModalOpen) {
     raycaster.setFromCamera(pointer, camera);
