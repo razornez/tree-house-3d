@@ -81,7 +81,7 @@ body {
 
   #experience-canvas {
     height: 100%;
-    width: 100%;
+      width: 100%;
     z-index: 2;
   }
 }
@@ -510,7 +510,7 @@ ul {
 .mute-toggle-button {
   position: fixed;
   bottom: 36px;
-  right: 2rem;
+  right: 1rem;
   z-index: 2;
 
   cursor: pointer;
@@ -524,7 +524,7 @@ ul {
 .theme-toggle-button {
   position: fixed;
   bottom: 5.7rem;
-  right: 2rem;
+  right: 1rem;
   z-index: 2;
   cursor: pointer;
 
@@ -537,7 +537,7 @@ ul {
 .about-toggle-button {
   position: fixed;
   bottom: 9.1rem;
-  right: 2rem;
+  right: 1rem;
   z-index: 2;
   cursor: pointer;
 

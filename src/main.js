@@ -108,10 +108,21 @@ const fadeInBackgroundMusic = () => {
 const updateMuteState = (muted) => {
   if (muted) {
     backgroundMusic.volume(0);
+    buttonSounds.click.mute(true);
+    // Pastikan SVG ikon juga terupdate di sini
+    if (soundOnSvg && soundOffSvg) { // Tambahkan cek null
+        soundOnSvg.style.display = "none";
+        soundOffSvg.style.display = "block";
+    }
   } else {
     backgroundMusic.volume(BACKGROUND_MUSIC_VOLUME);
+    buttonSounds.click.mute(false);
+    // Pastikan SVG ikon juga terupdate di sini
+    if (soundOnSvg && soundOffSvg) { // Tambahkan cek null
+        soundOffSvg.style.display = "none";
+        soundOnSvg.style.display = "block";
+    }
   }
-  buttonSounds.click.mute(muted);
 };
 
 
@@ -890,7 +901,7 @@ window.addEventListener("click", (e) => {
 /** -------------------------- UI Button Event Listeners -------------------------- */
 
 // --- Mute Toggle Button ---
-const handleMuteToggleLogic = () => { // Renamed for clarity, contains only logic
+const handleMuteToggleLogic = () => {
   isMuted = !isMuted;
   updateMuteState(isMuted); // Manages actual volume change
   buttonSounds.click.play();
@@ -901,13 +912,6 @@ const handleMuteToggleLogic = () => { // Renamed for clarity, contains only logi
     duration: 0.5,
     ease: "back.out(2)",
     onStart: () => {
-      if (!isMuted) {
-        soundOffSvg.style.display = "none";
-        soundOnSvg.style.display = "block";
-      } else {
-        soundOnSvg.style.display = "none";
-        soundOffSvg.style.display = "block";
-      }
       gsap.to(muteToggleButton, {
         rotate: 0,
         scale: 1,
@@ -936,8 +940,8 @@ muteToggleButton.addEventListener(
 muteToggleButton.addEventListener(
   "touchend",
   (e) => {
-    e.preventDefault(); // *** MODIFIED: Mencegah event 'click' bawaan browser di mobile ***
-    touchHappened = true; // *** MODIFIED: Set flag untuk menandakan touchend terjadi ***
+    e.preventDefault(); // *** PERBAIKAN PENTING UNTUK MOBILE: Mencegah event 'click' bawaan browser ***
+    touchHappened = true; // *** PENTING: Set flag untuk menandakan touchend terjadi ***
     handleMuteToggleLogic(); // Panggil logika utama mute
   },
   { passive: false }
