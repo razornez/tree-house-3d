@@ -97,9 +97,10 @@ controls.maxAzimuthAngle = Math.PI / 2;
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 
-controls.update();
+let initialCameraPosition = new THREE.Vector3();
+let initialControlsTarget = new THREE.Vector3();
 
-//Set starting camera position
+// ... (dalam blok if/else yang mengatur posisi kamera awal) ...
 if (window.innerWidth < 768) {
   camera.position.set(
     35.5, // x: sedikit lebih jauh ke kanan dari 17.49 -> 20.5
@@ -111,6 +112,7 @@ if (window.innerWidth < 768) {
     7.7,               // target y sedikit turun
     1.3300979125494505
   );
+  controls.maxDistance = 45;
 } else {
   camera.position.set(
     21.5, // x: sedikit lebih jauh ke kanan dari 17.49 -> 20.5
@@ -122,7 +124,13 @@ if (window.innerWidth < 768) {
     7.7,               // target y sedikit turun
     1.3300979125494505
   );
+  controls.maxDistance = 30;
 }
+
+// Simpan posisi awal setelah diatur
+initialCameraPosition.copy(camera.position);
+initialControlsTarget.copy(controls.target);
+
 
 window.addEventListener("resize", () => {
   sizes.width = window.innerWidth;
@@ -173,7 +181,7 @@ document.querySelectorAll(".modal-exit-button").forEach((button) => {
   function handleModalExit(e) {
     e.preventDefault();
     const modal = e.target.closest(".modal");
-
+  
     gsap.to(button, {
       scale: 5,
       duration: 0.5,
@@ -193,7 +201,28 @@ document.querySelectorAll(".modal-exit-button").forEach((button) => {
     });
 
     buttonSounds.click.play();
-    hideModal(modal);
+  
+    // Animasi reset posisi kamera menggunakan GSAP
+    gsap.to(camera.position, {
+      x: initialCameraPosition.x,
+      y: initialCameraPosition.y,
+      z: initialCameraPosition.z,
+      duration: 1.5,
+      ease: "power2.inOut",
+      onUpdate: () => controls.update()
+    });
+  
+    // Animasi reset target kontrol menggunakan GSAP
+    gsap.to(controls.target, {
+      x: initialControlsTarget.x,
+      y: initialControlsTarget.y,
+      z: initialControlsTarget.z,
+      duration: 1.5,
+      ease: "power2.inOut",
+      onComplete: () => {
+        hideModal(modal);
+      }
+    });
   }
 
   button.addEventListener(
@@ -290,14 +319,8 @@ const desktopInstructions = document.querySelector(".desktop-instructions");
 const mobileInstructions = document.querySelector(".mobile-instructions");
 
 manager.onLoad = function () {
-  loadingScreenButton.style.border = "4px solid #11293e";
-  loadingScreenButton.style.background = "#d4e4f4";
-  loadingScreenButton.style.color = "#11293e";
-  loadingScreenButton.style.boxShadow = "0 6px 16px rgba(0, 0, 0, 0.1)";
-  loadingScreenButton.textContent = "Enter Room";
   loadingScreenButton.style.cursor = "pointer";
-  loadingScreenButton.style.transition =
-    "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s, color 0.3s";
+  loadingScreenButton.textContent = "Enter Room";
 
   let isDisabled = false;
   let touchHappened = false;
@@ -306,14 +329,8 @@ manager.onLoad = function () {
     if (isDisabled) return;
 
     isDisabled = true;
-    loadingScreenButton.style.cursor = "default";
-    loadingScreenButton.style.border = "4px solid #11293e";
-    loadingScreenButton.style.background = "#d4e4f4";
-    loadingScreenButton.style.color = "#11293e";
-    loadingScreenButton.style.boxShadow = "none";
     loadingScreenButton.textContent = "~ Enjoy ~";
-
-    document.querySelector(".instructions").style.color = "#8c7b45";
+    loadingScreenButton.style.cursor = "default";
 
     toggleFavicons?.();
     backgroundMusic?.play();
@@ -344,25 +361,18 @@ function playReveal() {
   const tl = gsap.timeline();
 
   tl.to(loadingScreen, {
-    scale: 0.5,
-    duration: 1.2,
-    delay: 0.25,
-    ease: "back.in(1.8)",
-  }).to(
-    loadingScreen,
-    {
-      y: "200vh",
-      transform: "perspective(1000px) rotateX(45deg) rotateY(-35deg)",
-      duration: 1.2,
-      ease: "back.in(1.8)",
-      onComplete: () => {
-        isModalOpen = false;
-        playIntroAnimation();
-        loadingScreen.remove();
-      },
+    backdropFilter: "blur(10px)", // Animasi blur
+    backgroundColor: "rgba(255, 255, 255, 0.2)", // Animasi background menjadi lebih transparan
+    opacity: 0, // Animasi opasitas menjadi 0
+    duration: 1.2, // Durasi animasi blur/transparan, sesuaikan
+    ease: "power2.inOut",
+    onComplete: () => {
+      // Setelah semua animasi selesai, baru hapus loadingScreen
+      isModalOpen = false;
+      playIntroAnimation();
+      loadingScreen.remove();
     },
-    "-=0.1"
-  );
+  }, 0.5); 
 }
 
 function playIntroAnimation() {
@@ -381,37 +391,50 @@ function playIntroAnimation() {
       z: 1,
     })
 
-  const tBooks = gsap.timeline({
-    defaults: {
-      duration: 0.8,
-      ease: "back.out(1.8)",
-    },
-  });
-  tBooks.timeScale(0.8);
+    const tBooks = gsap.timeline({
+      defaults: {
+        duration: 0.8,
+        ease: "back.out(1.8)",
+      },
+    });
+    tBooks.timeScale(0.8);
+    
+    books.slice().reverse().forEach((book, reversedIndex) => {
+      tBooks.to(book.scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+      }, reversedIndex === 0 ? 0 : `-=${0.5}`);
+    });
 
-  books.forEach((book, index) => {
-    tBooks.to(book.scale, {
-      x: 1,
-      y: 1,
-      z: 1,
-    }, index === 0 ? 0 : `-=${0.5}`);
+  // 1. Urutkan berdasarkan nama objek (Egg_1, Egg_2, ...)
+  const sortedEggs = eggs.slice().sort((a, b) => {
+    const numA = parseInt(a.name.match(/\d+/));
+    const numB = parseInt(b.name.match(/\d+/));
+    return numA - numB;
   });
 
+  // 2. Timeline dengan efek bounce lembut
   const tEggs = gsap.timeline({
     defaults: {
       duration: 0.8,
-      ease: "back.out(1.8)",
-    },
+      ease: "elastic.out(1, 0.4)", // Lebih elastis dan hidup
+    },  
   });
   tEggs.timeScale(0.8);
 
-  eggs.forEach((eggs, index) => {
-    tEggs.to(eggs.scale, {
+  // 3. Tambahkan animasi satu per satu dengan delay bertahap
+  sortedEggs.forEach((egg, index) => {
+    // Reset scale dulu jika perlu
+    egg.scale.set(0, 0, 0);
+
+    tEggs.to(egg.scale, {
       x: 1,
       y: 1,
       z: 1,
-    }, index === 0 ? 0 : `-=${0.5}`);
+    }, `+=${index * 0.1}`); // Delay bertahap
   });
+
 }
 
 /**  -------------------------- Loaders & Texture Preparations -------------------------- */
@@ -443,10 +466,6 @@ const textureMap = {
   Fourth: {
     day: "/textures/room/day/fourth_texture_set_day.webp",
     night: "/textures/room/night/fourth_texture_set_night.webp",
-  },
-  Fifth: {
-    day: "/textures/room/day/fifth_texture_set_day.webp",
-    night: "/textures/room/night/fifth_texture_set_night.webp",
   },
 };
 
@@ -504,8 +523,6 @@ const createMaterialForTextureSet = (textureSet) => {
       uNightTexture3: { value: loadedTextures.night.Third },
       uDayTexture4: { value: loadedTextures.day.Fourth },
       uNightTexture4: { value: loadedTextures.night.Fourth },
-      uDayTexture5: { value: loadedTextures.day.Fifth },
-      uNightTexture5: { value: loadedTextures.night.Fifth },
       uMixRatio: { value: 0 },
       uTextureSet: { value: textureSet },
     },
@@ -528,7 +545,6 @@ const roomMaterials = {
   Second: createMaterialForTextureSet(2),
   Third: createMaterialForTextureSet(3),
   Fourth: createMaterialForTextureSet(4),
-  Fifth: createMaterialForTextureSet(5),
 };
 
 // Smoke Shader setup
@@ -582,6 +598,7 @@ const videoTexture = createVideoTexture("/textures/video/Screen2.mp4", Math.PI /
 
 let coffeePosition;
 let chairTop;
+let birdBody;
 let leftBirdWing;
 let rightBirdWing;
 let AccFourth1;
@@ -603,6 +620,10 @@ loader.load("/models/Room_Portfolio.glb", (glb) => {
 
     // Simpan objek khusus
     if (child.name.includes("Chair_Top")) chairTop = child;
+    if (child.name === "Bird_1_Fourth_Raycaster") {
+      birdBody = child;
+      birdBody.userData.initialPosition = birdBody.position.clone();
+    }
     if (child.name.includes("Birdwing_1")) leftBirdWing = child;
     if (child.name.includes("Birdwing_2")) rightBirdWing = child;
     if (child.name === "Acc_Fourth_1") AccFourth1 = child;
@@ -829,8 +850,10 @@ window.addEventListener("click", handleRaycasterInteraction);
 // Other Event Listeners
 const themeToggleButton = document.querySelector(".theme-toggle-button");
 const muteToggleButton = document.querySelector(".mute-toggle-button");
+const aboutToggleButton = document.querySelector(".about-toggle-button");
 const sunSvg = document.querySelector(".sun-svg");
 const moonSvg = document.querySelector(".moon-svg");
+const aboutSvg = document.querySelector(".about-svg");
 const soundOffSvg = document.querySelector(".sound-off-svg");
 const soundOnSvg = document.querySelector(".sound-on-svg");
 
@@ -1004,6 +1027,45 @@ themeToggleButton.addEventListener(
   { passive: false }
 );
 
+aboutToggleButton.addEventListener(
+  "click",
+  (e) => {
+    if (touchHappened) return;
+
+    // Animasikan posisi kamera
+    gsap.to(camera.position, {
+      x: 0.4053795360936806,
+      y: 8.43632336727302,
+      z: 6.323978769231198,
+      duration: 1.5, // Durasi animasi (detik)
+      ease: "power2.inOut", // Jenis easing untuk transisi mulus
+      onUpdate: () => controls.update() // Pastikan controls diupdate selama animasi
+    });
+
+    // Animasikan target kontrol
+    gsap.to(controls.target, {
+      x: 0.26503182728152547,
+      y: 7.603102165932663,
+      z: 1.3958914170966892,
+      duration: 1.5, // Durasi animasi harus sama dengan posisi kamera
+      ease: "power2.inOut",
+      onComplete: () => {
+        // Setelah animasi selesai, baru tampilkan modal
+        showModal(modals.about);
+      }
+    });
+  },
+  { passive: false }
+);
+
+aboutToggleButton.addEventListener(
+  "touchend",
+  (e) => {
+    touchHappened = true;
+  },
+  { passive: false }
+);
+
 /**  -------------------------- Render and Animations Stuff -------------------------- */
 const clock = new THREE.Clock();
 
@@ -1017,6 +1079,12 @@ const render = (timestamp) => {
   controls.update();
 
   const time = timestamp * 0.001;
+
+  // --- DEBUGGING KAMERA DI SINI ---
+  // console.log("Camera Position:", camera.position);
+  // console.log("Controls Target:", controls.target);
+
+
   // Reusable oscillation function
   function applyOscillation(object, axis, amplitude, speedMultiplier = 1.0) {
     if (!object) return;
@@ -1026,18 +1094,25 @@ const render = (timestamp) => {
   }
   
   // Reusable wing flapping function
-  function applyFlap(object, direction = 1) {
+  function applyFlap(object, direction = 1, body = null) {
     if (!object) return;
+  
     const flapAngle = THREE.MathUtils.degToRad(90);
     const flapSpeed = 25.0;
     const wingOffset = (flapAngle / 2) * (1 + Math.cos(time * flapSpeed));
     object.rotation.x = object.userData.initialRotation.x + direction * wingOffset;
+  
+    // ⬆️ Gerakkan tubuh naik-turun jika diberikan
+    if (body) {
+      const bounce = Math.sin(time * flapSpeed) * 0.03; // atur amplitude sesuai kebutuhan
+      body.position.y = body.userData.initialPosition.y + bounce;
+    }
   }
   
   // Apply animations
   applyOscillation(chairTop, 'y', Math.PI / 8, 0.5);
-  applyFlap(leftBirdWing, -1);
-  applyFlap(rightBirdWing, 1);
+  applyFlap(leftBirdWing, -1, birdBody);  // Sayap kiri
+  applyFlap(rightBirdWing, 1, birdBody);  // Sayap kanan
   applyOscillation(AccFourth1, 'x', Math.PI / 10, 1.0);
   applyOscillation(AccFourth2, 'x', Math.PI / 8, 1.5);
   

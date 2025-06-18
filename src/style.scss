@@ -2,28 +2,29 @@
 @use "./styles/reset.scss";
 @use "./styles/variables.scss" as vars;
 @use "./styles/defaults.scss" as media;
+@use "sass:map";
 
 $themes: (
   light: (
-    base-dark-purple: #bfa76a,       // diganti jadi warna kuning gelap
-    base-purple: #d8c28d,            // kuning soft, lebih terang
-    base-purple-200: #f3e9c8,        // tone cream pucat
-    base-pink: #fdf5e6,              // off-white kekuningan
-    base-light-purple: #fffaf0,      // hampir putih dengan tone cream
-    header-text: #a68c4f,            // kuning agak tua untuk kontras teks
-    text: #1e1e1e,                   // tetap gelap untuk keterbacaan
-    svgs: #c5a76c,                   // warna ikon yang harmonis
+    base-dark-purple: #6abfa7,
+    base-purple: #8dd8c2,
+    base-purple-200: #c8f3e9,
+    base-pink: #e6fdf5,
+    base-light-purple: #f0fffb,
+    header-text: #4fa68c,
+    text: #1e1e1e,
+    svgs: #6cc5a7,
   ),
 
   dark: (
-    base-dark-purple: #2f2a1f,       // krem sangat gelap
-    base-purple: #6a5d3a,            // cokelat keemasan
-    base-purple-200: #8d7c52,        // cokelat muda / kuning tua
-    base-pink: #a89263,              // keemasan dengan sentuhan soft
-    base-light-purple: #403520,      // tone gelap krem untuk elemen terang
-    header-text: #f0e7d1,            // teks terang di mode gelap
-    text: #f5ecd6,                   // krem terang untuk body text
-    svgs: #f5ecd6,                   // warna ikon di dark mode
+    base-dark-purple: #1f2f2a,
+    base-purple: #3a6a5d,
+    base-purple-200: #528d7c,
+    base-pink: #63a892,
+    base-light-purple: #204035,
+    header-text: #d1f0e7,
+    text: #d6f5ec,
+    svgs: #d6f5ec,
   ),
 );
 
@@ -33,7 +34,7 @@ $themes: (
     .#{$theme}-theme & {
       $theme-map: () !global;
       @each $key, $value in $map {
-        $theme-map: map-merge(
+        $theme-map: map.merge(
           $theme-map,
           (
             $key: $value,
@@ -47,7 +48,7 @@ $themes: (
 }
 
 @function t($key) {
-  @return map-get($theme-map, $key);
+  @return map.get($theme-map, $key);
 }
 
 * {
@@ -464,26 +465,6 @@ ul {
   margin: 12px;
 }
 
-// Toggle Button
-.mute-toggle-button {
-  position: fixed;
-  top: 36px;
-  right: 148px;
-  z-index: 2;
-
-  cursor: pointer;
-
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  &:hover {
-    transform: rotate(-5deg) scale(1.3);
-  }
-
-  @include media.media("<=tablet") {
-    top: 30px;
-    right: 96px;
-  }
-}
-
 .sound-svg {
   width: 40px;
   height: 40px;
@@ -510,32 +491,72 @@ ul {
   }
 }
 
+// Toggle Button
 .toggle-buttons {
   @include vars.centered;
+  width: 5rem;
+  height: 5rem;
   border: 8px solid vars.$base-purple;
   background-color: vars.$base-light-purple;
-  padding: 10px;
+  padding: 8px;
   color: vars.$base-purple;
   border-radius: 1.2rem;
   cursor: pointer;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.theme-toggle-button {
+.mute-toggle-button {
   position: fixed;
   top: 36px;
-  right: 48px;
+  left: 2rem;
+  z-index: 2;
+
+  cursor: pointer;
+
+  transition: transform 0.3s cubic-bezier(0.5, 1.8, 0.7, 0.7);
+  &:hover {
+    transform: scale(1.2) rotate(40deg);
+  }
+
+  @include media.media("<=tablet") {
+    top: 30px;
+    left: 18px;
+  }
+}
+
+.theme-toggle-button {
+  position: fixed;
+  top: 136px;
+  left: 2rem;
   z-index: 2;
   cursor: pointer;
 
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   &:hover {
-    transform: rotate(5deg) scale(1.3);
+    transform: scale(1.2) rotate(-40deg);
   }
 
   @include media.media("<=tablet") {
-    top: 30px;
-    right: 18px;
+    top: 130px;
+    left: 18px;
+  }
+}
+
+.about-toggle-button {
+  position: fixed;
+  top: 236px;
+  left: 2rem;
+  z-index: 2;
+  cursor: pointer;
+
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  &:hover {
+    transform: scale(1.2) rotate(40deg);
+  }
+
+  @include media.media("<=tablet") {
+    top: 230px;
+    left: 18px;
   }
 }
 
@@ -555,6 +576,17 @@ ul {
   height: 40px;
   stroke: vars.$base-purple;
   display: none;
+  @include media.media("<=tablet") {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.about-svg {
+  width: 40px;
+  height: 40px;
+
+  stroke: vars.$base-purple;
   @include media.media("<=tablet") {
     width: 30px;
     height: 30px;
@@ -673,7 +705,8 @@ ul {
 .linkedin,
 .instagram,
 .mail,
-.moon-svg {
+.moon-svg, 
+.about-svg {
   @include themed() {
     stroke: t("svgs");
     color: t("svgs");
@@ -684,7 +717,7 @@ ul {
   @include vars.centered;
   position: fixed;
   inset: 0;
-  background-color: vars.$base-dark-purple;
+  background-color: rgba(40, 53, 41, 0.945); /* Ubah ke RGBA agar bisa transparan */
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -701,15 +734,22 @@ ul {
   z-index: 1000;
   border: 8px solid vars.$base-purple;
   transform: perspective(1000px);
+
+  /* --- Tambahan untuk Blur dan Transisi --- */
+  backdrop-filter: blur(0px); /* Mulai tanpa blur */
+  transition: background-color 1s ease-out, backdrop-filter 1s ease-out, opacity 1.2s ease-out, transform 1.2s ease-out; /* Tambahkan backdrop-filter ke transisi */
+  opacity: 1; /* Default saat muncul */
+}
+
+/* Kelas baru untuk state blur */
+.loading-screen.blur-out {
+  backdrop-filter: blur(10px); /* Tingkat blur saat transisi keluar, sesuaikan */
+  background-color: rgba(40, 53, 41, 0.945); /* Lebih transparan saat blur */
+  opacity: 0; /* Akan diatur oleh JS/GSAP nanti, tapi ini sebagai fallback */
 }
 
 .loading-content {
   text-align: center;
-  padding: 2rem;
-  margin: 1rem;
-  background: vars.$base-purple-200;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
 .welcome-title {
@@ -792,24 +832,6 @@ ul {
   }
 }
 
-.diorama-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding-top: 2rem;
-  padding-bottom: 1rem;
-  box-sizing: border-box;
-}
-
-.diorama-image {
-  max-width: 15%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  object-fit: contain;
-  border: 3px solid vars.$base-purple;
-  border-radius: 18px;
-}
 
 @keyframes bounce {
   0%, 100% {
