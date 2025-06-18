@@ -298,14 +298,14 @@ ul {
   height: 550px;
 
   @include media.media("<=tablet") {
-    height: 500px;
+    height: 440px;
   }
 }
 
 .about .modal-content {
   height: 550px;
   @include media.media("<=tablet") {
-    height: 500px;
+    height: 440px;
   }
 }
 
@@ -705,7 +705,7 @@ ul {
   @include vars.centered;
   position: fixed;
   inset: 0;
-  background-color: rgba(40, 53, 41, 0.945); /* Ubah ke RGBA agar bisa transparan */
+  background-color: rgba(40, 53, 41, 0.986); /* Ubah ke RGBA agar bisa transparan */
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -732,7 +732,7 @@ ul {
 /* Kelas baru untuk state blur */
 .loading-screen.blur-out {
   backdrop-filter: blur(10px); /* Tingkat blur saat transisi keluar, sesuaikan */
-  background-color: rgba(40, 53, 41, 0.945); /* Lebih transparan saat blur */
+  background-color: rgba(40, 53, 41, 0.986); /* Lebih transparan saat blur */
   opacity: 0; /* Akan diatur oleh JS/GSAP nanti, tapi ini sebagai fallback */
 }
 
