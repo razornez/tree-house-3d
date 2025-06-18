@@ -494,8 +494,8 @@ ul {
 // Toggle Button
 .toggle-buttons {
   @include vars.centered;
-  width: 5rem;
-  height: 5rem;
+  width: 4rem;
+  height: 4rem;
   border: 8px solid vars.$base-purple;
   background-color: vars.$base-light-purple;
   padding: 8px;
@@ -507,7 +507,7 @@ ul {
 
 .mute-toggle-button {
   position: fixed;
-  top: 36px;
+  bottom: 36px;
   left: 2rem;
   z-index: 2;
 
@@ -519,14 +519,14 @@ ul {
   }
 
   @include media.media("<=tablet") {
-    top: 30px;
+    bottom: 30px;
     left: 18px;
   }
 }
 
 .theme-toggle-button {
   position: fixed;
-  top: 136px;
+  bottom: 136px;
   left: 2rem;
   z-index: 2;
   cursor: pointer;
@@ -537,14 +537,14 @@ ul {
   }
 
   @include media.media("<=tablet") {
-    top: 130px;
+    bottom: 130px;
     left: 18px;
   }
 }
 
 .about-toggle-button {
   position: fixed;
-  top: 236px;
+  bottom: 236px;
   left: 2rem;
   z-index: 2;
   cursor: pointer;
@@ -555,7 +555,7 @@ ul {
   }
 
   @include media.media("<=tablet") {
-    top: 230px;
+    bottom: 230px;
     left: 18px;
   }
 }
