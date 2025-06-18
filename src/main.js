@@ -63,7 +63,7 @@ const MUSIC_FADE_TIME = 500;
 const BACKGROUND_MUSIC_VOLUME = 0.5;
 const FADED_VOLUME = 0;
 
-const randomAudioSrc = `/audio/music/audio.mp3`;
+const randomAudioSrc = `/audio/music/audio2.mp3`;
 
 const backgroundMusic = new Howl({
   src: [randomAudioSrc],

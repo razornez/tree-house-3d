@@ -496,9 +496,9 @@ ul {
 // Toggle Button
 .toggle-buttons {
   @include vars.centered;
-  width: 4rem;
-  height: 4rem;
-  border: 8px solid vars.$base-purple;
+  width: 3rem;
+  height: 3rem;
+  border: 6px solid vars.$base-purple;
   background-color: vars.$base-light-purple;
   padding: 8px;
   color: vars.$base-purple;
@@ -510,7 +510,7 @@ ul {
 .mute-toggle-button {
   position: fixed;
   bottom: 36px;
-  left: 2rem;
+  right: 2rem;
   z-index: 2;
 
   cursor: pointer;
@@ -523,8 +523,8 @@ ul {
 
 .theme-toggle-button {
   position: fixed;
-  bottom: 7rem;
-  left: 2rem;
+  bottom: 5.7rem;
+  right: 2rem;
   z-index: 2;
   cursor: pointer;
 
@@ -536,8 +536,8 @@ ul {
 
 .about-toggle-button {
   position: fixed;
-  bottom: 11.7rem;
-  left: 2rem;
+  bottom: 9.1rem;
+  right: 2rem;
   z-index: 2;
   cursor: pointer;
 
