@@ -775,6 +775,36 @@ function handleRaycasterInteraction() {
     if (object.name.includes("Contact_Button")) {
       showModal(modals.contact);
     }
+
+    if (object.name.includes("Nest_Fourth_Raycaster")) {
+      gsap.to(camera.position, {
+        x: 5.802273883637961,
+        y: 11.251038107236639,
+        z: 3.96878320089606,
+        duration: 1.5,
+        ease: "power2.inOut",
+        onUpdate: () => controls.update()
+      });
+      gsap.to(controls.target, {
+        x: 2,
+        y: 8,
+        z: -3.5884234252680836,
+        duration: 1.5,
+        ease: "power2.inOut",
+        onUpdate: () => controls.update()
+      });
+    }
+
+    if (object.name === "Bird_2_Fourth_Raycaster_Hover" || object.name === "Bird_3_Fourth_Raycaster_Hover" || object.name === "Bird_4_Fourth_Raycaster_Hover") {
+      gsap.to(camera.position, {
+        x: initialCameraPosition.x,
+        y: initialCameraPosition.y,
+        z: initialCameraPosition.z,
+        duration: 1.5,
+        ease: "power2.inOut",
+        onUpdate: () => controls.update()
+      });
+    }
   }
 }
 
@@ -1117,6 +1147,10 @@ const render = (timestamp) => {
   const elapsedTime = clock.getElapsedTime();
 
   smokeMaterial.uniforms.uTime.value = elapsedTime;
+
+  // --- DEBUGGING KAMERA DI SINI ---
+  // console.log("Camera Position:", camera.position);
+  // console.log("Controls Target:", controls.target);
 
   controls.update();
 
