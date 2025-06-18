@@ -11,6 +11,7 @@ $themes: (
     base-purple-200: #c8f3e9,
     base-pink: #e6fdf5,
     base-light-purple: #f0fffb,
+    base-light-modal-purple: rgb(240 255 251 / 66%),
     header-text: #4fa68c,
     text: #1e1e1e,
     svgs: #6cc5a7,
@@ -22,6 +23,7 @@ $themes: (
     base-purple-200: #528d7c,
     base-pink: #63a892,
     base-light-purple: #204035,
+    base-light-modal-purple: rgb(32 64 53 / 66%),
     header-text: #d1f0e7,
     text: #d6f5ec,
     svgs: #d6f5ec,
@@ -517,16 +519,11 @@ ul {
   &:hover {
     transform: scale(1.2) rotate(40deg);
   }
-
-  @include media.media("<=tablet") {
-    bottom: 30px;
-    left: 18px;
-  }
 }
 
 .theme-toggle-button {
   position: fixed;
-  bottom: 136px;
+  bottom: 7rem;
   left: 2rem;
   z-index: 2;
   cursor: pointer;
@@ -535,16 +532,11 @@ ul {
   &:hover {
     transform: scale(1.2) rotate(-40deg);
   }
-
-  @include media.media("<=tablet") {
-    bottom: 130px;
-    left: 18px;
-  }
 }
 
 .about-toggle-button {
   position: fixed;
-  bottom: 236px;
+  bottom: 11.7rem;
   left: 2rem;
   z-index: 2;
   cursor: pointer;
@@ -552,11 +544,6 @@ ul {
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   &:hover {
     transform: scale(1.2) rotate(40deg);
-  }
-
-  @include media.media("<=tablet") {
-    bottom: 230px;
-    left: 18px;
   }
 }
 
@@ -636,7 +623,7 @@ ul {
 .modal {
   @include themed() {
     border-color: t("base-purple");
-    background-color: t("base-light-purple");
+    background-color: t("base-light-modal-purple");
   }
 }
 

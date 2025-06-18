@@ -60,7 +60,7 @@ const soundOnSvg = document.querySelector(".sound-on-svg");
 
 /** -------------------------- Audio setup -------------------------- */
 const MUSIC_FADE_TIME = 500;
-const BACKGROUND_MUSIC_VOLUME = 0.8;
+const BACKGROUND_MUSIC_VOLUME = 0.5;
 const FADED_VOLUME = 0;
 
 const randomAudioSrc = `/audio/music/audio.mp3`;
@@ -370,8 +370,8 @@ manager.onLoad = function () {
     loadingScreenButton.textContent = "~ Enjoy ~"; //
     loadingScreenButton.style.animation = 'none'; // Stop CSS animations
 
+    backgroundMusic.play();
     toggleFavicons?.();
-    backgroundMusic?.play();
     playReveal?.(); // Trigger loading screen exit animation
   }
 
@@ -924,11 +924,11 @@ const handleMuteToggleLogic = () => { // Renamed for clarity, contains only logi
 muteToggleButton.addEventListener(
   "click",
   (e) => {
-    if (touchHappened) { // Prevent click if touchend just occurred
-      touchHappened = false;
-      return;
+    if (touchHappened) {
+      touchHappened = false; // Reset flag
+      return; // Abaikan event click jika touchend sudah terjadi
     }
-    handleMuteToggleLogic();
+    handleMuteToggleLogic(); // Panggil logika utama mute
   },
   { passive: false }
 );
@@ -936,9 +936,9 @@ muteToggleButton.addEventListener(
 muteToggleButton.addEventListener(
   "touchend",
   (e) => {
-    e.preventDefault(); // Prevent click emulation
-    touchHappened = true;
-    handleMuteToggleLogic();
+    e.preventDefault(); // *** MODIFIED: Mencegah event 'click' bawaan browser di mobile ***
+    touchHappened = true; // *** MODIFIED: Set flag untuk menandakan touchend terjadi ***
+    handleMuteToggleLogic(); // Panggil logika utama mute
   },
   { passive: false }
 );
@@ -1037,6 +1037,7 @@ aboutToggleButton.addEventListener(
         return;
     }
     animateCameraAndShowModal(modals.about);
+    buttonSounds.click.play();
   },
   { passive: false }
 );
