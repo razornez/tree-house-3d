@@ -298,14 +298,14 @@ ul {
   height: 550px;
 
   @include media.media("<=tablet") {
-    height: 440px;
+    height: 410px;
   }
 }
 
 .about .modal-content {
   height: 550px;
   @include media.media("<=tablet") {
-    height: 440px;
+    height: 410px;
   }
 }
 
