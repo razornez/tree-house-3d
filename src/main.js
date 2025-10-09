@@ -752,7 +752,7 @@ function handleRaycasterInteraction() {
 
     const socialLinks = { // Define socialLinks locally or globally if used elsewhere
       GitHub: "https://github.com/#",
-      YouTube: "https://instagram.com/razornez",
+      YouTube: "#",
       Twitter: "https://wa.me/6285889963822",
     };
     Object.entries(socialLinks).forEach(([key, url]) => {
