@@ -11,6 +11,14 @@ import smokeVertexShader from "./shaders/smoke/vertex.glsl";
 import smokeFragmentShader from "./shaders/smoke/fragment.glsl";
 import themeVertexShader from "./shaders/theme/vertex.glsl";
 import themeFragmentShader from "./shaders/theme/fragment.glsl";
+import * as Sentry from "@sentry/browser";
+
+Sentry.init({
+  dsn: "https://f46f5209f67744e7e4c0e8f2d07361fc@o4509432444747776.ingest.de.sentry.io/4509432449400912",
+  // Setting this option to true will send default PII data to Sentry.
+  // For example, automatic IP address collection on events
+  sendDefaultPii: true
+});
 
 // --- GLOBAL FLAGS AND VARIABLES ---
 let touchHappened = false; // Flag to prevent click events after touchend on mobile
