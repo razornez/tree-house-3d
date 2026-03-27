@@ -516,44 +516,39 @@ const environmentMap = new THREE.CubeTextureLoader()
   .setPath("textures/skybox/")
   .load(["px.webp", "nx.webp", "py.webp", "ny.webp", "pz.webp", "nz.webp"]);
 
-const textureMap = {
-  First: {
-    day: "/textures/room/day/first_texture_set_day.webp",
-    night: "/textures/room/night/first_texture_set_night.webp",
-  },
-  Second: {
-    day: "/textures/room/day/second_texture_set_day.webp",
-    night: "/textures/room/night/second_texture_set_night.webp",
-  },
-  Third: {
-    day: "/textures/room/day/third_texture_set_day.webp",
-    night: "/textures/room/night/third_texture_set_night.webp",
-  },
-  Fourth: {
-    day: "/textures/room/day/fourth_texture_set_day.webp",
-    night: "/textures/room/night/fourth_texture_set_night.webp",
-  },
-};
+let hasDeferredAssetsStarted = false;
+const isMobile = window.innerWidth < 768;
+const sizePath = isMobile ? "" : "";
+const textureNames = ["first", "second", "third", "fourth"];
+
+const textureMap = textureNames.reduce((map, name) => {
+  const key = name.charAt(0).toUpperCase() + name.slice(1);
+  map[key] = {
+    day: `/textures/room/day/${sizePath}${name}_texture_set_day.webp`,
+    night: `/textures/room/night/${sizePath}${name}_texture_set_night.webp`,
+  };
+  return map;
+}, {});
 
 const loadedTextures = {
   day: {},
   night: {},
 };
 
+const applyTextureSettings = (texture) => {
+  texture.flipY = false;
+  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+};
+
 Object.entries(textureMap).forEach(([key, paths]) => {
   const dayTexture = textureLoader.load(paths.day);
-  dayTexture.flipY = false;
-  dayTexture.colorSpace = THREE.SRGBColorSpace;
-  dayTexture.minFilter = THREE.LinearFilter;
-  dayTexture.magFilter = THREE.LinearFilter;
+  applyTextureSettings(dayTexture);
   loadedTextures.day[key] = dayTexture;
 
-  const nightTexture = textureLoader.load(paths.night);
-  nightTexture.flipY = false;
-  nightTexture.colorSpace = THREE.SRGBColorSpace;
-  nightTexture.minFilter = THREE.LinearFilter;
-  nightTexture.magFilter = THREE.LinearFilter;
-  loadedTextures.night[key] = nightTexture;
+  // Use day texture as fallback until deferred textures are loaded.
+  loadedTextures.night[key] = dayTexture;
 });
 
 const glassMaterial = new THREE.MeshPhysicalMaterial({
@@ -605,6 +600,31 @@ const roomMaterials = {
   Third: createMaterialForTextureSet(3),
   Fourth: createMaterialForTextureSet(4),
 };
+
+const loadDeferredTextures = () => {
+  if (hasDeferredAssetsStarted) return;
+  hasDeferredAssetsStarted = true;
+
+  Object.entries(textureMap).forEach(([key, paths]) => {
+    const nightTexture = textureLoader.load(paths.night, (texture) => {
+      applyTextureSettings(texture);
+      loadedTextures.night[key] = texture;
+      roomMaterials[key].uniforms[`uNightTexture${roomMaterials[key].uniforms.uTextureSet.value}`].value = texture;
+      roomMaterials[key].needsUpdate = true;
+    });
+    applyTextureSettings(nightTexture);
+  });
+};
+
+const loadDeferredAudio = () => {
+  backgroundMusic.load();
+  buttonSounds.click.load();
+};
+
+window.addEventListener("load", () => {
+  loadDeferredTextures();
+  loadDeferredAudio();
+});
 
 const smokeGeometry = new THREE.PlaneGeometry(1, 1, 16, 64);
 smokeGeometry.translate(0, 0.5, 0);
